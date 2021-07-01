@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.restapi.Retrofit.Api;
 import com.example.restapi.Retrofit.Model;
+import com.example.restapi.Retrofit.RecyclerAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,43 +29,40 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tv;
+    RecyclerView recyclerView;
     String url = "https://jsonplaceholder.typicode.com/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tv = findViewById(R.id.tv);
-        tv.setText("");
-        //rcv = findViewById(R.id.rcView);
-        // rcv.setLayoutManager(new LinearLayoutManager(this));
-        //retrofit
-        retofitclass();
+        recyclerView = findViewById(R.id.rcv);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-    }
-
-    private void retofitclass() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        Api api = retrofit.create(Api.class);
-        Call<List<Model>> call = api.getAllData();
 
+        Api api = retrofit.create(Api.class);
+        Call<List<Model>> call = api.getData();
         call.enqueue(new Callback<List<Model>>() {
             @Override
             public void onResponse(Call<List<Model>> call, Response<List<Model>> response) {
-                List<Model> list = response.body();
-
+                List<Model> data = response.body();
+                if (response.isSuccessful()) {
+                    RecyclerAdapter adapter = new RecyclerAdapter(data);
+                    recyclerView.setAdapter(adapter);
+                }
             }
 
             @Override
             public void onFailure(Call<List<Model>> call, Throwable t) {
-                Toast.makeText(MainActivity.this,"Error"+t.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Error" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+
     }
-
-
 }

@@ -2,53 +2,17 @@ package com.example.restapi.Retrofit;
 
 import com.google.gson.annotations.SerializedName;
 
+import retrofit2.http.GET;
+
 public class Model {
-  @SerializedName("albumId")
-  int AlbumId;
     @SerializedName("id")
-    int id;
+    int Id;
     @SerializedName("title")
-    String Title;
+    String title;
     @SerializedName("url")
     String Url;
     @SerializedName("thumbnailUrl")
-    String Thumbail;
-
-    //Constructor
-
-    public Model(int albumId, int id, String title, String url, String thumbail) {
-        AlbumId = albumId;
-        this.id = id;
-        Title = title;
-        Url = url;
-        Thumbail = thumbail;
-    }
-
-    //Getter And Setter
-
-    public int getAlbumId() {
-        return AlbumId;
-    }
-
-    public void setAlbumId(int albumId) {
-        AlbumId = albumId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return Title;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
-    }
+    String TUrl;
 
     public String getUrl() {
         return Url;
@@ -58,11 +22,37 @@ public class Model {
         Url = url;
     }
 
-    public String getThumbail() {
-        return Thumbail;
+    public String getTUrl() {
+        return TUrl;
     }
 
-    public void setThumbail(String thumbail) {
-        Thumbail = thumbail;
+    public void setTUrl(String TUrl) {
+        this.TUrl = TUrl;
+    }
+
+    public Model(String url, String TUrl) {
+        Url = url;
+        this.TUrl = TUrl;
+    }
+
+    public Model(int id, String title) {
+        Id = id;
+        this.title = title;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
